@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Text</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #212121, #000);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1; /* Ensure text appears above the background */
+        }
+
+        .text {
+            color: white;
+            opacity: 0;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .left {
+            font-size: 1.5rem;
+            transform: translateX(-100%);
+            align-self: flex-start;
+            margin-left: 10%;
+        }
+
+        .right {
+            font-size: 1.5rem;
+            transform: translateX(100%);
+            align-self: flex-end;
+            margin-right: 10%;
+        }
+
+        .center {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 2s forwards;
+            margin-top: 20px;
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .left, .right {
+                font-size: 1.2rem;
+            }
+
+            .center {
+                font-size: 2rem;
+            }
+
+            .left {
+                margin-left: 5%;
+            }
+
+            .right {
+                margin-right: 5%;
+            }
+        }
+
+        .star {
+            position: absolute;
+            top: -10px;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(white, rgba(255, 255, 255, 0));
+            opacity: 0.7;
+            animation: falling 3s linear infinite;
+        }
+
+        @keyframes falling {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text left" id="leftText1">sebenernya pengen jelasin secara langsung tapi</div>
+        <div class="text left" id="leftText2">kalo kamu mau siii</div>
+        <div class="text left" id="leftText3">intinya aku pengen jelasin kalo itu semua ga bener</div>
+        <div class="text center" id="centerText">Maaf Tuan</div>
+        <div class="text right" id="rightText1">jadi gini,kitaa logika aja yaah</div>
+        <div class="text right" id="rightText2">kalo aku bener suka/deket orang lain</div>
+        <div class="text right" id="rightText3">aku ngga mungkin se effort ini buat kita bisa balikan lagi</div>
+        <div class="text right" id="rightText4">iyaaa kan, misal nih yaa aku bener suka sama orang lain</div>
+        <div class="text right" id="rightText5">enggak mungkin aku bakal buatin kayak gini apa lagi kemarin masih dm dman kan</div>
+        <div class="text left" id="leftText4">intinya gw ngga pernah deket sama orang lain apa lagi niatan sampek selingkuh</div>
+        <div class="text left" id="leftText5">pliss yah kaisyaa, aku bener bener serius sm kamu</div>
+        <div class="text left" id="leftText6">kalo misal kuarang jelas iso tak jelasne secara langsung</div>
+        <div class="text center" id="centerText">Makasih kalo udah buka web ini yaaa</div>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const leftTexts = document.querySelectorAll('.left');
+            const rightTexts = document.querySelectorAll('.right');
+            const centerText = document.getElementById('centerText');
+
+            leftTexts.forEach((text, index) => {
+                setTimeout(() => {
+                    text.style.opacity = 1;
+                    text.style.animation = `slideInLeft 2s forwards`;
+                }, index * 1500);
+            });
+
+            rightTexts.forEach((text, index) => {
+                setTimeout(() => {
+                    text.style.opacity = 1;
+                    text.style.animation = `slideInRight 2s forwards`;
+                }, (index + leftTexts.length) * 1500);
+            });
+
+            setTimeout(() => {
+                centerText.style.opacity = 1;
+            }, leftTexts.length * 1500);
+
+            // Create falling stars
+            function createStar() {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}vw`;
+                document.body.appendChild(star);
+                setTimeout(() => {
+                    star.remove();
+                }, 3000);
+            }
+
+            setInterval(createStar, 500);
+        });
+    </script>
+</body>
+</html>
