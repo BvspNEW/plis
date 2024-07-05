@@ -12,9 +12,17 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: radial-gradient(circle, #212121, #000);
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400% 400%;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            animation: rainbow 10s ease infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
@@ -31,6 +39,7 @@
             opacity: 0;
             margin: 10px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            will-change: opacity, transform;
         }
 
         .left {
@@ -51,7 +60,6 @@
             font-size: 2.5rem;
             font-weight: bold;
             text-align: center;
-            animation: fadeIn 2s forwards;
             margin-top: 20px;
         }
 
@@ -112,9 +120,28 @@
             background: linear-gradient(white, rgba(255, 255, 255, 0));
             opacity: 0.7;
             animation: falling 3s linear infinite;
+            will-change: transform, opacity;
+        }
+
+        .love-icon {
+            position: absolute;
+            top: -10px;
+            width: 30px;
+            height: 30px;
+            background-image: url('path_to_love_icon.png'); /* Replace with your love icon image */
+            background-size: contain;
+            animation: falling-love 3s linear infinite;
+            will-change: transform, opacity;
         }
 
         @keyframes falling {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes falling-love {
             to {
                 transform: translateY(100vh);
                 opacity: 0;
@@ -127,54 +154,60 @@
         <div class="text left" id="leftText1">sebenernya pengen jelasin secara langsung tapi</div>
         <div class="text left" id="leftText2">kalo kamu mau siii</div>
         <div class="text left" id="leftText3">intinya aku pengen jelasin kalo itu semua ga bener</div>
-        <div class="text center" id="centerText">maaff </div>
+        <div class="text center" id="centerText1">****</div>
         <div class="text right" id="rightText1">jadi gini,kitaa logika aja yaah</div>
         <div class="text right" id="rightText2">kalo aku bener suka/deket orang lain</div>
         <div class="text right" id="rightText3">aku ngga mungkin se effort ini buat kita bisa balikan lagi</div>
         <div class="text right" id="rightText4">iyaaa kan, misal nih yaa aku bener suka sama orang lain</div>
         <div class="text right" id="rightText5">enggak mungkin aku bakal buatin kayak gini apa lagi kemarin masih dm dman kan</div>
-        <div class="text left" id="leftText4">intinya gw ngga pernah deket sama orang lain apa lagi niatan sampek selingkuh</div>
+        <div class="text left" id="leftText4">intinya AKU ngga pernah deket sama orang lain apa lagi niatan sampek selingkuh</div>
         <div class="text left" id="leftText5">pliss yah kaisyaa, aku bener bener serius sm kamu</div>
         <div class="text left" id="leftText6">kalo misal kuarang jelas iso tak jelasne secara langsung</div>
-        <div class="text center" id="centerText">Makasih kalo udah buka web ini yaaa</div>
-
+        <div class="text center" id="centerText2">Makasih kalo udah buka web ini yaaa</div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const leftTexts = document.querySelectorAll('.left');
-            const rightTexts = document.querySelectorAll('.right');
-            const centerText = document.getElementById('centerText');
+            const texts = [
+                document.getElementById('leftText1'),
+                document.getElementById('leftText2'),
+                document.getElementById('leftText3'),
+                document.getElementById('centerText1'),
+                document.getElementById('rightText1'),
+                document.getElementById('rightText2'),
+                document.getElementById('rightText3'),
+                document.getElementById('rightText4'),
+                document.getElementById('rightText5'),
+                document.getElementById('leftText4'),
+                document.getElementById('leftText5'),
+                document.getElementById('leftText6'),
+                document.getElementById('centerText2'),
+            ];
 
-            leftTexts.forEach((text, index) => {
+            texts.forEach((text, index) => {
                 setTimeout(() => {
                     text.style.opacity = 1;
-                    text.style.animation = `slideInLeft 2s forwards`;
-                }, index * 1500);
+                    if (text.classList.contains('left')) {
+                        text.style.animation = 'slideInLeft 2s forwards';
+                    } else if (text.classList.contains('right')) {
+                        text.style.animation = 'slideInRight 2s forwards';
+                    } else if (text.classList.contains('center')) {
+                        text.style.animation = 'fadeIn 2s forwards';
+                    }
+                }, index * 2000); // Adjust time as needed
             });
 
-            rightTexts.forEach((text, index) => {
+            // Create falling love icons
+            function createLoveIcon() {
+                const loveIcon = document.createElement('div');
+                loveIcon.classList.add('love-icon');
+                loveIcon.style.left = `${Math.random() * 100}vw`;
+                document.body.appendChild(loveIcon);
                 setTimeout(() => {
-                    text.style.opacity = 1;
-                    text.style.animation = `slideInRight 2s forwards`;
-                }, (index + leftTexts.length) * 1500);
-            });
-
-            setTimeout(() => {
-                centerText.style.opacity = 1;
-            }, leftTexts.length * 1500);
-
-            // Create falling stars
-            function createStar() {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.left = `${Math.random() * 100}vw`;
-                document.body.appendChild(star);
-                setTimeout(() => {
-                    star.remove();
+                    loveIcon.remove();
                 }, 3000);
             }
 
-            setInterval(createStar, 500);
+            setInterval(createLoveIcon, 500);
         });
     </script>
 </body>
