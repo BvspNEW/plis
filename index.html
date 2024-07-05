@@ -40,20 +40,10 @@
             margin: 10px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             will-change: opacity, transform;
-        }
-
-        .left {
-            font-size: 1.5rem;
-            transform: translateX(-100%);
-            align-self: flex-start;
-            margin-left: 10%;
-        }
-
-        .right {
-            font-size: 1.5rem;
-            transform: translateX(100%);
-            align-self: flex-end;
-            margin-right: 10%;
+            cursor: pointer; /* Add cursor pointer for clickable effect */
+            text-align: center; /* Center align text */
+            font-size: 2rem; /* Adjust font size */
+            font-weight: bold; /* Add font weight */
         }
 
         .center {
@@ -94,121 +84,135 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .left, .right {
-                font-size: 1.2rem;
-            }
-
-            .center {
-                font-size: 2rem;
-            }
-
-            .left {
-                margin-left: 5%;
-            }
-
-            .right {
-                margin-right: 5%;
-            }
+        .shine-button {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1.5rem; /* Button font size */
+            padding: 10px 20px; /* Button padding */
+            color: white; /* Button text color */
+            text-transform: uppercase; /* Uppercase text */
+            font-weight: bold; /* Button text bold */
+            border-radius: 5px; /* Button border radius */
+            overflow: hidden;
         }
 
-        .star {
+        .shine-button::before {
+            content: '';
             position: absolute;
-            top: -10px;
-            width: 2px;
-            height: 100px;
-            background: linear-gradient(white, rgba(255, 255, 255, 0));
-            opacity: 0.7;
-            animation: falling 3s linear infinite;
-            will-change: transform, opacity;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0) 50%, rgba(255,255,255,0.3) 70%, rgba(255,255,255,0.5) 80%, rgba(255,255,255,0.7) 100%);
+            opacity: 0;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .shine-button:hover::before {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Love icon animation */
+        @keyframes loveAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
         }
 
         .love-icon {
             position: absolute;
-            top: -10px;
-            width: 30px;
-            height: 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 100px;
+            height: 100px;
             background-image: url('path_to_love_icon.png'); /* Replace with your love icon image */
             background-size: contain;
-            animation: falling-love 3s linear infinite;
-            will-change: transform, opacity;
-        }
-
-        @keyframes falling {
-            to {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes falling-love {
-            to {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
+            animation: loveAnimation 5s ease-out forwards;
+            z-index: 2;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="text left" id="leftText1">sebenernya pengen jelasin secara langsung tapi</div>
-        <div class="text left" id="leftText2">kalo kamu mau siii</div>
-        <div class="text left" id="leftText3">intinya aku pengen jelasin kalo itu semua ga bener</div>
-        <div class="text center" id="centerText1">****</div>
-        <div class="text right" id="rightText1">jadi gini,kitaa logika aja yaah</div>
-        <div class="text right" id="rightText2">kalo aku bener suka/deket orang lain</div>
-        <div class="text right" id="rightText3">aku ngga mungkin se effort ini buat kita bisa balikan lagi</div>
-        <div class="text right" id="rightText4">iyaaa kan, misal nih yaa aku bener suka sama orang lain</div>
-        <div class="text right" id="rightText5">enggak mungkin aku bakal buatin kayak gini apa lagi kemarin masih dm dman kan</div>
-        <div class="text left" id="leftText4">intinya AKU ngga pernah deket sama orang lain apa lagi niatan sampek selingkuh</div>
-        <div class="text left" id="leftText5">pliss yah kaisyaa, aku bener bener serius sm kamu</div>
-        <div class="text left" id="leftText6">kalo misal kuarang jelas iso tak jelasne secara langsung</div>
-        <div class="text center" id="centerText2">Makasih kalo udah buka web ini yaaa</div>
+    <div class="container" id="textContainer">
+        <!-- Text elements will be dynamically added here -->
     </div>
+    <button class="shine-button" onclick="displayNextText()">Next</button>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const texts = [
-                document.getElementById('leftText1'),
-                document.getElementById('leftText2'),
-                document.getElementById('leftText3'),
-                document.getElementById('centerText1'),
-                document.getElementById('rightText1'),
-                document.getElementById('rightText2'),
-                document.getElementById('rightText3'),
-                document.getElementById('rightText4'),
-                document.getElementById('rightText5'),
-                document.getElementById('leftText4'),
-                document.getElementById('leftText5'),
-                document.getElementById('leftText6'),
-                document.getElementById('centerText2'),
-            ];
+        const texts = [
+            'sebenernya pengen jelasin secara langsung tapi',
+            'kalo kamu mau siii',
+            'intinya aku pengen jelasin kalo itu semua ga bener',
+            '****',
+            'jadi gini,kitaa logika aja yaah',
+            'kalo aku bener suka/deket orang lain',
+            'aku ngga mungkin se effort ini buat kita bisa balikan lagi',
+            'iyaaa kan, misal nih yaa aku bener suka sama orang lain',
+            'enggak mungkin aku bakal buatin kayak gini apa lagi kemarin masih dm dman kan',
+            'intinya AKU ngga pernah deket sama orang lain apa lagi niatan sampek selingkuh',
+            'pliss yah kaisyaa, aku bener bener serius sm kamu',
+            'kalo misal kuarang jelas iso tak jelasne secara langsung',
+            'Makasih kalo udah buka web ini yaaa'
+        ];
 
-            texts.forEach((text, index) => {
+        let currentIndex = 0;
+
+        function displayNextText() {
+            const container = document.getElementById('textContainer');
+            if (currentIndex < texts.length) {
+                const textElement = document.createElement('div');
+                textElement.textContent = texts[currentIndex];
+                textElement.classList.add('text');
+                container.innerHTML = ''; // Clear previous text
+                container.appendChild(textElement);
+
+                // Animate text
                 setTimeout(() => {
-                    text.style.opacity = 1;
-                    if (text.classList.contains('left')) {
-                        text.style.animation = 'slideInLeft 2s forwards';
-                    } else if (text.classList.contains('right')) {
-                        text.style.animation = 'slideInRight 2s forwards';
-                    } else if (text.classList.contains('center')) {
-                        text.style.animation = 'fadeIn 2s forwards';
+                    textElement.style.opacity = 1;
+                    if (textElement.classList.contains('left')) {
+                        textElement.style.animation = 'slideInLeft 2s forwards';
+                    } else if (textElement.classList.contains('right')) {
+                        textElement.style.animation = 'slideInRight 2s forwards';
+                    } else {
+                        textElement.style.animation = 'fadeIn 2s forwards';
                     }
-                }, index * 2000); // Adjust time as needed
-            });
+                }, 100); // Delay to ensure smooth transition
 
-            // Create falling love icons
-            function createLoveIcon() {
-                const loveIcon = document.createElement('div');
-                loveIcon.classList.add('love-icon');
-                loveIcon.style.left = `${Math.random() * 100}vw`;
-                document.body.appendChild(loveIcon);
-                setTimeout(() => {
-                    loveIcon.remove();
-                }, 3000);
+                // Create love icon animation
+                createLoveIcon();
+                currentIndex++;
             }
+        }
 
-            setInterval(createLoveIcon, 500);
-        });
+        function createLoveIcon() {
+            const loveIcon = document.createElement('div');
+            loveIcon.classList.add('love-icon');
+            document.body.appendChild(loveIcon);
+
+            // Remove the love icon after animation
+            setTimeout(() => {
+                loveIcon.remove();
+            }, 1000); // Adjust timing to match loveAnimation duration
+        }
     </script>
 </body>
 </html>
